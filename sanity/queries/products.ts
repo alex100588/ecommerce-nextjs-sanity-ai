@@ -1,5 +1,5 @@
 import { defineQuery } from "next-sanity";
-import { LOW_STOCK_THRESHOLD } from "@/lib/constants/stock";
+import { LOW_STOCK_THRESHOLD } from "../lib/constants/stock";
 
 // ============================================
 // Shared Query Fragments (DRY)

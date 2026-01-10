@@ -1,3 +1,4 @@
+import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ALL_CATEGORIES_QUERY } from "@/sanity/queries/categories";
 import {
@@ -7,11 +8,15 @@ import {
   FILTER_PRODUCTS_BY_PRICE_DESC_QUERY,
   FILTER_PRODUCTS_BY_RELEVANCE_QUERY,
 } from "@/sanity/queries/products";
+import { Suspense } from "react";
 
-
+// ============================================
+// Tipuri pentru searchParams
+// ============================================
+// Reprezintă parametrii care pot veni din URL (ex: ?searchTerm=chair&category=furniture)
 interface PageProps {
-  searchParams: Promise<{
-    q?: string;
+  searchParams: Promise <{
+    searchTerm?: string;
     category?: string;
     color?: string;
     material?: string;
@@ -22,21 +27,30 @@ interface PageProps {
   }>;
 }
 
+// ============================================
+// Funcția paginii principale
+// ============================================
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
 
-  const searchQuery = params.q ?? "";
+  console.log("Parametri URL:", params); // aici vad ce vine din URL-ul paginii
+
+  // ============================================
+  // Extragem parametrii și setăm valori implicite
+  // ============================================
+  const searchQuery = params.searchTerm ?? ""; // "q" în exemplele tale anterioare
   const categorySlug = params.category ?? "";
   const color = params.color ?? "";
   const material = params.material ?? "";
   const minPrice = Number(params.minPrice) || 0;
-  const maxPrice = Number(params.minPrice) || 0;
+  const maxPrice = Number(params.maxPrice) || 0;
   const sort = params.sort ?? "name";
   const inStock = params.inStock === "true";
 
-  // Select query based on sort parameter
+  // ============================================
+  // Aleg query-ul Sanity în funcție de sort
+  // ============================================
   const getQuery = () => {
-    // If searching and sort is relevance, use relevance query
     if (searchQuery && sort === "relevance") {
       return FILTER_PRODUCTS_BY_RELEVANCE_QUERY;
     }
@@ -53,7 +67,9 @@ export default async function Home({ searchParams }: PageProps) {
     }
   };
 
-  // Fetch products with filters (server-side via GROQ)
+  // ============================================
+  // Fetch produse filtrate de la Sanity
+  // ============================================
   const { data: products } = await sanityFetch({
     query: getQuery(),
     params: {
@@ -67,29 +83,35 @@ export default async function Home({ searchParams }: PageProps) {
     },
   });
 
-  // Fetch categories for filter sidebar
+  // ============================================
+  // Fetch categorii pentru sidebar
+  // ============================================
   const { data: categories } = await sanityFetch({
     query: ALL_CATEGORIES_QUERY,
   });
 
-  // Fetch featured products for carousel
+  // ============================================
+  // Fetch produse featured pentru carousel
+  // ============================================
   const { data: featuredProducts } = await sanityFetch({
     query: FEATURED_PRODUCTS_QUERY,
   });
 
-  console.log(products);
-  console.log(categories);
-  console.log(featuredProducts);
-  
+  // console.log("Produse filtrate:", products);
+  // console.log("Categorii:", categories);
+  // console.log("Produse featured:", featuredProducts);
 
+  // ============================================
+  // Return UI (React JSX)
+  // ============================================
   return (
-    <div className="">
+    <div>
       {/* Featured products carousel */}
-
+      <Suspense fallback={<div>...loading</div>}>
+        <FeaturedCarousel products={featuredProducts}/>
+      </Suspense>
       {/* Page banner */}
-
       {/* Category tiles */}
-
       {/* Products section */}
     </div>
   );

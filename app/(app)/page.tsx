@@ -19,7 +19,7 @@ import { Suspense } from "react";
 // Reprezintă parametrii care pot veni din URL (ex: ?searchTerm=chair&category=furniture)
 interface PageProps {
   searchParams: Promise <{
-    searchTerm?: string;
+    q?: string;
     category?: string;
     color?: string;
     material?: string;
@@ -41,7 +41,7 @@ export default async function Home({ searchParams }: PageProps) {
   // ============================================
   // Extragem parametrii și setăm valori implicite
   // ============================================
-  const searchQuery = params.searchTerm ?? ""; // "q" în exemplele tale anterioare
+  const searchQuery = params.q ?? ""; 
   const categorySlug = params.category ?? "";
   const color = params.color ?? "";
   const material = params.material ?? "";
@@ -73,6 +73,7 @@ export default async function Home({ searchParams }: PageProps) {
   // ============================================
   // Fetch produse filtrate de la Sanity
   // ============================================
+  // iau proprietatea data din obiectul returnat si o redenumesc in products
   const { data: products } = await sanityFetch({
     query: getQuery(),
     params: {

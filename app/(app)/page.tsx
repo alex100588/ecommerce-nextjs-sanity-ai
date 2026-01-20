@@ -1,7 +1,5 @@
 import { CategoryTitles } from "@/components/homePage/CategoryTitles";
 import { FeaturedCarousel } from "@/components/homePage/FeaturedCarousel";
-import { FeaturedCarouselSkeleton } from "@/components/homePage/FeaturedCarouselComponent";
-import { ProductSection } from "@/components/homePage/ProductSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ALL_CATEGORIES_QUERY } from "@/sanity/queries/categories";
 import {
@@ -12,13 +10,15 @@ import {
   FILTER_PRODUCTS_BY_RELEVANCE_QUERY,
 } from "@/sanity/queries/products";
 import { Suspense } from "react";
+import { FeaturedCarouselSkeleton } from "@/components/homePage/FeaturedCarouselSkeleton";
+import { ProductSection } from "@/components/homePage/ProductSection";
 
 // ============================================
 // Tipuri pentru searchParams
 // ============================================
 // Reprezintă parametrii care pot veni din URL (ex: ?searchTerm=chair&category=furniture)
 interface PageProps {
-  searchParams: Promise <{
+  searchParams: Promise<{
     q?: string;
     category?: string;
     color?: string;
@@ -36,12 +36,10 @@ interface PageProps {
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
 
-  console.log("Parametri URL:", params); // aici vad ce vine din URL-ul paginii
-
   // ============================================
   // Extragem parametrii și setăm valori implicite
   // ============================================
-  const searchQuery = params.q ?? ""; 
+  const searchQuery = params.q ?? "";
   const categorySlug = params.category ?? "";
   const color = params.color ?? "";
   const material = params.material ?? "";
@@ -100,7 +98,6 @@ export default async function Home({ searchParams }: PageProps) {
   const { data: featuredProducts } = await sanityFetch({
     query: FEATURED_PRODUCTS_QUERY,
   });
-  
 
   // console.log("Produse filtrate:", products);
   // console.log("Categorii:", categories);
@@ -113,7 +110,7 @@ export default async function Home({ searchParams }: PageProps) {
     <div>
       {/* Featured products carousel */}
       <Suspense fallback={<FeaturedCarouselSkeleton />}>
-        <FeaturedCarousel products={featuredProducts}/>
+        <FeaturedCarousel products={featuredProducts} />
       </Suspense>
 
       {/* Page banner */}
@@ -126,14 +123,14 @@ export default async function Home({ searchParams }: PageProps) {
             Premium furniture for your home
           </p>
         </div>
-          {/* Category tiles */}
+        {/* Category tiles */}
         <div className="mt-6">
           <CategoryTitles
             categories={categories}
             activeCategory={categorySlug || undefined}
           />
         </div>
-        </div>
+      </div>
       {/* Products section */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <ProductSection

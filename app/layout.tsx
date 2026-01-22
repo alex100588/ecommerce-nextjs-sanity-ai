@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { CartStoreProvider } from "@/lib/store/cart-store-provider";
-import { ThemeToggle } from "@/components/light-dark-mode/ThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +27,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CartStoreProvider>
-          <header className="p-4 flex justify-end">
-            <ThemeToggle />
-          </header>
-          {children}
-        </CartStoreProvider>
+          
+            {children}
       </body>
     </html>
   );

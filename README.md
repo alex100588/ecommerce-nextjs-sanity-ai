@@ -152,3 +152,35 @@ Componentizare clară: componente mici și interfețe de props definite deasupra
 Stilizare avansată: @container pentru adaptare la dimensiunea containerului, nu viewport.
 
 Playlist și newsletter integrat (extras din demo).
+
+
+
+## Arhitectura Aplicației
+
+```mermaid
+flowchart TD
+    %% User Layer
+    A[🌐 User / Browser] --> B[🚀 Next.js App Router]
+
+    %% Server Layer
+    B --> C[🖥 Server Components]
+    C -->|📦 Fetch Data| D[📚 Sanity CMS]
+    C -->|🔑 Auth / User Context| E[🛡 Clerk + AgentKit]
+    C -->|🤖 AI Insights| F[🧠 Vercel AI SDK / AI Gateway]
+
+    %% Client Layer
+    C --> G[🎨 Client Components]
+    G -->|🗂 State Management| H[⚡ Zustand + localStorage]
+    G -->|🖌 Render UI| I[💎 shadcn/ui + Tailwind CSS]
+
+    %% Payments
+    G --> J[💳 Stripe Checkout]
+    J -->|🔄 Webhook updates| D
+
+    %% Live Updates
+    D -->|⚡ Real-time Updates| G
+
+    %% AI Tools
+    F --> G
+    F -->|📊 Admin Insights| K[📈 AI Admin Dashboard]
+    G -->|🛒 Shopping Assistant| L[🔍 Product Search & Order Tracking]

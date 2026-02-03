@@ -111,6 +111,7 @@ interface FeaturedSlideProps {
   product: FeaturedProduct;
 }
 
+// Componenta separata pentru a lua produsele si a afisa imaginile daca acestea exista
 function FeaturedSlide({ product }: FeaturedSlideProps) {
   const mainImage = product.images?.[0]?.asset?.url;
 

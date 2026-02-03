@@ -35,7 +35,7 @@ interface PageProps {
 // ============================================
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
-
+  
   // ============================================
   // Extragem parametrii și setăm valori implicite
   // ============================================
@@ -67,6 +67,21 @@ export default async function Home({ searchParams }: PageProps) {
         return FILTER_PRODUCTS_BY_NAME_QUERY;
     }
   };
+  
+  // ============================================
+  // Fetch produse featured pentru carousel
+  // ============================================
+  const { data: featuredProducts } = await sanityFetch({
+    query: FEATURED_PRODUCTS_QUERY,
+  });
+  // console.log("Products fetch result:", products);
+  
+  // ============================================
+  // Fetch categorii
+  // ============================================
+  const { data: categories } = await sanityFetch({
+    query: ALL_CATEGORIES_QUERY,
+  });
 
   // ============================================
   // Fetch produse filtrate de la Sanity
@@ -85,27 +100,6 @@ export default async function Home({ searchParams }: PageProps) {
     },
   });
 
-  // ============================================
-  // Fetch categorii pentru sidebar
-  // ============================================
-  const { data: categories } = await sanityFetch({
-    query: ALL_CATEGORIES_QUERY,
-  });
-
-  // ============================================
-  // Fetch produse featured pentru carousel
-  // ============================================
-  const { data: featuredProducts } = await sanityFetch({
-    query: FEATURED_PRODUCTS_QUERY,
-  });
-
-  // console.log("Produse filtrate:", products);
-  // console.log("Categorii:", categories);
-  // console.log("Produse featured:", featuredProducts);
-
-  // ============================================
-  // Return UI (React JSX)
-  // ============================================
   return (
     <div>
       {/* Featured products carousel */}
@@ -120,10 +114,10 @@ export default async function Home({ searchParams }: PageProps) {
             Shop {categorySlug ? categorySlug : "All Products"}
           </h1>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            Premium furniture for your home
+            Premium {categorySlug || "products"} for your home or fashion
           </p>
         </div>
-        {/* Category tiles */}
+        {/* Categoriile pentru a le putea selecta */}
         <div className="mt-6">
           <CategoryTitles
             categories={categories}

@@ -61,14 +61,14 @@ export function FeaturedCarousel({ products }: FeaturedCarouselProps) {
         }}
 
         // autoplay
-    //     plugins={[
-    //       Autoplay({
-    //         delay: 5000,
-    //         stopOnInteraction: false,
-    //         stopOnMouseEnter: true,
-    //       }),
-    //     ]
-    // }
+        plugins={[
+          Autoplay({
+            delay: 5000,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true,
+          }),
+        ]
+    }
         className="w-full"
       >
         <CarouselContent className="-ml-0">

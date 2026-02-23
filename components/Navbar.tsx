@@ -37,7 +37,7 @@ export function Header() {
             </Button>
           </SignedIn>
 
-          {!isChatOpen && (
+          {/* {!isChatOpen && (
             <Button
               onClick={openChat}
               className="gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-200/50 transition-all hover:from-amber-600 hover:to-orange-600 hover:shadow-lg hover:shadow-amber-300/50 dark:shadow-amber-900/30 dark:hover:shadow-amber-800/40"
@@ -45,7 +45,7 @@ export function Header() {
               <Sparkles className="h-4 w-4" />
               <span className="text-sm font-medium">Ask AI</span>
             </Button>
-          )}
+          )} */}
 
           <Button variant="ghost" size="icon" className="relative" onClick={openCart}>
             <ShoppingBag className="h-5 w-5" />
@@ -72,7 +72,9 @@ export function Header() {
             </SignInButton>
           </SignedOut>
 
-          <ThemeToggle />
+          <div className="ms-3">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Mobile Hamburger */}
@@ -97,7 +99,7 @@ export function Header() {
             </Link>
           </SignedIn>
 
-          {!isChatOpen && (
+          {/* {!isChatOpen && (
             <Button
               onClick={() => {
                 openChat();
@@ -108,7 +110,7 @@ export function Header() {
               <Sparkles className="h-4 w-4" />
               Ask AI
             </Button>
-          )}
+          )} */}
 
           <Button
             variant="ghost"

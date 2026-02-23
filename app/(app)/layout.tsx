@@ -1,5 +1,5 @@
 import { CartSheet } from "@/components/CartSheet";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { CartStoreProvider } from "@/lib/store/cart-store-provider";
 import { ChatStoreProvider } from "@/lib/store/chat-store-provider";
